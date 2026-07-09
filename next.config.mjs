@@ -8,6 +8,11 @@ const withMDX = mdx({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
+  async rewrites() {
+    return {
+      beforeFiles: [{ source: "/", destination: "/home.html" }],
+    };
+  },
   transpilePackages: ["next-mdx-remote"],
   images: {
     remotePatterns: [
