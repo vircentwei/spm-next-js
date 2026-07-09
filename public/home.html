@@ -4160,12 +4160,27 @@ function dzTranslate(lang){
   var flag=document.querySelector('.language-link .flag');
   if(flag){flag.className='flag flag-'+lang;}
 }
+var dzSecMap={};
+function dzMapSections(){
+  var ts=['What Products We Provide','Dongguan Xiaofeiniu','Why Global Streetwear','Customized Solutions','Accreditations and Certificates','Clients visit DiZNEW','Frequently Asked Questions'];
+  var hs=document.querySelectorAll('h2');
+  ts.forEach(function(t){
+    for(var i=0;i<hs.length;i++){
+      if(hs[i].textContent.indexOf(t)!==-1){dzSecMap[t]=hs[i];return;}
+    }
+  });
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',dzMapSections);}else{dzMapSections();}
 function dzCrumbGo(t){
   if(t==='__top__'){window.scrollTo({top:0,behavior:'smooth'});return;}
-  var hs=document.querySelectorAll('h2');
-  for(var i=0;i<hs.length;i++){
-    if(hs[i].textContent.indexOf(t)!==-1){hs[i].scrollIntoView({behavior:'smooth',block:'start'});return;}
+  var el=dzSecMap[t];
+  if(!el){
+    var hs=document.querySelectorAll('h2');
+    for(var i=0;i<hs.length;i++){
+      if(hs[i].textContent.indexOf(t)!==-1){el=hs[i];break;}
+    }
   }
+  if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
 }
 </script>
 <script src="assets/vendor/swiper/swiper.min.js"></script>
@@ -4206,6 +4221,32 @@ function dzCrumbGo(t){
       if(btn&&btn.classList.contains('active')){btn.click();}
     });
   });
+})();
+</script>
+<div class="right-float notranslate">
+<a class="rf-btn rf-whatsapp" target="_blank" rel="nofollow" href="https://wa.me/8613058567994" title="WhatsApp"><i class="fa fa-whatsapp"></i></a>
+<a class="rf-btn rf-mail" href="mailto:info@diznew.com" title="Email"><i class="fa fa-envelope-o"></i></a>
+<button class="rf-btn rf-top" type="button" title="Return to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa fa-angle-up"></i></button>
+</div>
+<style>
+.right-float{position:fixed;right:10px;bottom:5px;z-index:998;}
+.right-float .rf-btn{width:45px;height:45px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 0 5px;box-shadow:0 0 5px 0 #eee;border:none;cursor:pointer;background:#666;color:#fff;text-decoration:none;padding:0;}
+.right-float .rf-btn i{font:22px/1 FontAwesome;font-style:normal;}
+.right-float .rf-whatsapp{background:#29a61a;}
+.right-float .rf-mail{background:#555;}
+.right-float .rf-top{background:#666;visibility:hidden;opacity:0;transition:opacity .3s;}
+.right-float .rf-top.show{visibility:visible;opacity:1;}
+.right-float .rf-btn:hover{opacity:.85;}
+.rf-whatsapp i:before{content:"\f232";}
+.rf-mail i:before{content:"\f003";}
+.rf-top i:before{content:"\f106";}
+</style>
+<script>
+(function(){
+  var t=document.querySelector('.rf-top');
+  window.addEventListener('scroll',function(){
+    if(t){t.classList.toggle('show',window.scrollY>300);}
+  },{passive:true});
 })();
 </script>
 </body>
