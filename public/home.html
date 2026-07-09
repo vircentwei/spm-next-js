@@ -4144,22 +4144,44 @@ function googleTranslateElementInit(){
   g.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
   document.body.appendChild(g);
 })();
-function dzTranslate(lang){
-  var tries=0;
-  (function apply(){
-    var combo=document.querySelector('select.goog-te-combo');
-    if(combo){
-      combo.value=(lang==='en')?'':lang;
-      combo.dispatchEvent(new Event('change'));
-      if(lang==='en'){document.cookie='googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT';}
-    }else if(tries++<20){setTimeout(apply,300);}
-  })();
+function dzClearGoogTrans(){
+  var hosts=['', 'domain='+location.hostname, 'domain=.'+location.hostname];
+  hosts.forEach(function(d){
+    document.cookie='googtrans=;path=/;'+(d?d+';':'')+'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  });
+}
+function dzSetLangUI(lang){
   var cur=document.querySelector('.language-link .text');
   var names={en:'English',fr:'Français',de:'Deutsch',es:'Español'};
   if(cur){cur.textContent=names[lang]||lang;}
   var flag=document.querySelector('.language-link .flag');
   if(flag){flag.className='flag flag-'+lang;}
 }
+function dzTranslate(lang){
+  dzSetLangUI(lang);
+  if(lang==='en'){
+    dzClearGoogTrans();
+    try{sessionStorage.setItem('dzLang','en');}catch(e){}
+    location.reload();
+    return;
+  }
+  try{sessionStorage.setItem('dzLang',lang);}catch(e){}
+  var tries=0;
+  (function apply(){
+    var combo=document.querySelector('select.goog-te-combo');
+    if(combo){
+      combo.value=lang;
+      combo.dispatchEvent(new Event('change'));
+    }else if(tries++<20){setTimeout(apply,300);}
+  })();
+}
+(function(){
+  function restore(){
+    var m=document.cookie.match(/googtrans=\/en\/([a-z-]+)/);
+    if(m&&m[1]&&m[1]!=='en'){dzSetLangUI(m[1]);}
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',restore);}else{restore();}
+})();
 var dzSecMap={};
 function dzMapSections(){
   var ts=['What Products We Provide','Dongguan Xiaofeiniu','Why Global Streetwear','Customized Solutions','Accreditations and Certificates','Clients visit DiZNEW','Frequently Asked Questions'];
@@ -4249,6 +4271,10 @@ function dzCrumbGo(t){
   },{passive:true});
 })();
 </script>
+<style>
+.mod-othercontent01-banner-dh2w2 .swiper-pagination-bullet{width:calc(1vw + 10px);height:4px;border-radius:50vw;background:rgba(255,255,255,.5);opacity:1;}
+.mod-othercontent01-banner-dh2w2 .swiper-pagination-bullet-active{background:#000;}
+</style>
 </body>
 </html>
 <!--{execution time : 168.2554 ms}-->
