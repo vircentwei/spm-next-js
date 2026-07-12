@@ -890,7 +890,7 @@ document.addEventListener("copy", function(e){
         </div>
     </div>    <div class="layout layout-sys1 layout-current">
         <div class="layout-bg">
-            <div class="mod mod-color mod-current01"><div class="mod-bg mod-bg-current01"><div class="mod-content mod-content-current01"><div class="content-bg content-bg-current01"><span class="newsz"><a href="//www.diznew.com/" title="Home">Home</a></span> / <span class="present">Contact</span></div></div></div></div>
+            <div class="mod mod-color mod-current01"><div class="mod-bg mod-bg-current01"><div class="mod-content mod-content-current01"><div class="content-bg content-bg-current01"><span class="newsz"><a href="javascript:void(0)" onclick="dzCrumbGo('__top__')" title="Home">Home</a></span> / <span class="present">Contact</span></div></div></div></div>
         </div>
     </div>    <div class="layout layout-sys2 layout-pagecontact">
         <div class="layout-bg">
@@ -1211,8 +1211,7 @@ function dzContactSend(){
 <script>
 function dzCrumbGo(t){
   if(t==='__contact__'){var q=document.querySelector('.layout-pagecontact');if(q){q.scrollIntoView({behavior:'smooth',block:'start'});}return;}
-  if(t==='__top__'){location.href='index.html';return;}
-  location.href='index.html';
+  location.href=(location.protocol==='file:')?'index.html':'./';
 }
 </script>
 </body>
