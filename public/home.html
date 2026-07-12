@@ -4408,6 +4408,34 @@ function dzContactSend(){
 @media(min-width:769px){.layout-share .left{width:auto !important;}.layout-share .right{width:auto !important;flex:1;margin-left:3vw;}}
 @media(max-width:768px){.mod-contact01 .contact-images-right{flex-direction:column;align-items:flex-start;gap:4px;}}
 </style>
+<style>
+@keyframes dz-beam-r{0%{clip-path:polygon(54% 0,60% 0,50% 100%,44% 100%);}100%{clip-path:polygon(114% 0,120% 0,110% 100%,104% 100%);}}
+@keyframes dz-beam-l{0%{clip-path:polygon(46% 0,52% 0,42% 100%,36% 100%);}100%{clip-path:polygon(-14% 0,-8% 0,-18% 100%,-24% 100%);}}
+.dz-shine-copy{position:absolute;left:0;top:0;width:100%;color:#2F5B8F;filter:blur(.6px);text-shadow:0 0 8px rgba(47,91,143,.95),0 0 20px rgba(47,91,143,.7),0 0 36px rgba(47,91,143,.45);pointer-events:none;opacity:0;margin:0;}
+.mod-othercontent01-banner-dh2w2 .swiper-slide-active .dz-shine-copy{opacity:1;}
+.mod-othercontent01-banner-dh2w2 .swiper-slide-active .dz-shine-copy.dz-r{animation:dz-beam-r 1.5s ease-out .2s both;}
+.mod-othercontent01-banner-dh2w2 .swiper-slide-active .dz-shine-copy.dz-l{animation:dz-beam-l 1.5s ease-out .2s both;}
+</style>
+<script>
+(function(){
+  function addShine(el){
+    if(!el||el.querySelector('.dz-shine-copy'))return;
+    el.style.position='relative';
+    var txt=el.textContent;
+    ['dz-r','dz-l'].forEach(function(cls){
+      var sp=document.createElement('span');
+      sp.className='dz-shine-copy '+cls;sp.setAttribute('aria-hidden','true');
+      sp.textContent=txt;
+      el.appendChild(sp);
+    });
+  }
+  document.querySelectorAll('.mod-othercontent01-banner-dh2w2 .desc h1.title').forEach(function(h){
+    addShine(h);
+    var p=h.nextElementSibling;
+    if(p&&p.tagName==='P')addShine(p);
+  });
+})();
+</script>
 </body>
 </html>
 <!--{execution time : 168.2554 ms}-->
