@@ -10,7 +10,13 @@ const nextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   async rewrites() {
     return {
-      beforeFiles: [{ source: "/", destination: "/home.html" }],
+      beforeFiles: [
+        { source: "/", destination: "/home.html" },
+        {
+          source: "/api/contact",
+          destination: "http://43.165.125.95/api/contact",
+        },
+      ],
     };
   },
   async headers() {

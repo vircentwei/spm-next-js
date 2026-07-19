@@ -1,56 +1,72 @@
-// SANPiMA contact API - standalone backend (front/back separated)
-// Run: node server.js  (default port 3001)
-// Endpoint: POST /api/contact  {email,name,phone,title,content,page,time}
-// Submissions are appended to messages.json next to this file.
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+// SANPiMA contact API - Express + MySQL (front/back separated)
+// Run: npm install && npm run init-db && npm start
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
+const express = require('express');
+const cors = require('cors');
+const pool = require('./db');
 
-const PORT = process.env.PORT || 3001;
-const STORE = path.join(__dirname, 'messages.json');
+const app = express();
+const PORT = Number(process.env.PORT || 3001);
 
-function readStore() {
-  try { return JSON.parse(fs.readFileSync(STORE, 'utf8')); } catch (e) { return []; }
-}
+const origins = (process.env.CORS_ORIGINS || '*').trim();
+app.use(cors(origins === '*' ? {} : { origin: origins.split(',').map((s) => s.trim()) }));
+app.use(express.json({ limit: '100kb' }));
 
-const server = http.createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-  if (req.method === 'POST' && req.url === '/api/contact') {
-    let body = '';
-    req.on('data', c => { body += c; if (body.length > 1e6) req.destroy(); });
-    req.on('end', () => {
-      try {
-        const data = JSON.parse(body);
-        if (!data.email || !data.name || !data.title || !data.content) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ ok: false, error: 'missing required fields' }));
-          return;
-        }
-        const list = readStore();
-        list.push({ ...data, receivedAt: new Date().toISOString(), ip: req.socket.remoteAddress });
-        fs.writeFileSync(STORE, JSON.stringify(list, null, 2));
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ ok: true }));
-      } catch (e) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ ok: false, error: 'invalid json' }));
-      }
-    });
-    return;
+app.get('/api/health', async (req, res) => {
+  try {
+    await pool.query('SELECT 1');
+    res.json({ ok: true, db: true });
+  } catch (e) {
+    res.status(500).json({ ok: false, db: false, error: e.message });
   }
-
-  if (req.method === 'GET' && req.url === '/api/contact') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(readStore()));
-    return;
-  }
-
-  res.writeHead(404, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ ok: false, error: 'not found' }));
 });
 
-server.listen(PORT, () => console.log('Contact API listening on http://localhost:' + PORT));
+app.post('/api/contact', async (req, res) => {
+  const { email, name, phone, title, content, page, time } = req.body || {};
+  if (!email || !EMAIL_RE.test(String(email))) {
+    return res.status(400).json({ ok: false, error: 'invalid email' });
+  }
+  if (!name || !title || !content) {
+    return res.status(400).json({ ok: false, error: 'missing required fields' });
+  }
+  try {
+    const [result] = await pool.execute(
+      `INSERT INTO contact_messages (email, name, phone, title, content, page, client_time, ip, user_agent)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        String(email).slice(0, 255),
+        String(name).slice(0, 100),
+        phone ? String(phone).slice(0, 50) : null,
+        String(title).slice(0, 255),
+        String(content).slice(0, 60000),
+        page ? String(page).slice(0, 500) : null,
+        time ? String(time).slice(0, 50) : null,
+        (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').toString().split(',')[0].trim().slice(0, 45),
+        (req.headers['user-agent'] || '').slice(0, 500),
+      ]
+    );
+    res.json({ ok: true, id: result.insertId });
+  } catch (e) {
+    console.error('insert failed:', e.message);
+    res.status(500).json({ ok: false, error: 'database error' });
+  }
+});
+
+app.get('/api/contact', async (req, res) => {
+  const limit = Math.min(Number(req.query.limit) || 50, 200);
+  try {
+    const [rows] = await pool.query(
+      'SELECT id, email, name, phone, title, content, page, client_time, ip, created_at FROM contact_messages ORDER BY id DESC LIMIT ?',
+      [limit]
+    );
+    res.json({ ok: true, total: rows.length, data: rows });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: 'database error' });
+  }
+});
+
+app.use((req, res) => res.status(404).json({ ok: false, error: 'not found' }));
+
+app.listen(PORT, () => console.log(`Contact API listening on http://localhost:${PORT}`));
