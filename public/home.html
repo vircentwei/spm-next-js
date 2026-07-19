@@ -4108,13 +4108,13 @@ document.addEventListener("copy", function(e){
     var bar=document.createElement('div');bar.className='cyt-bar';
     bar.innerHTML='<div class="cyt-btn cyt-play"></div><div class="cyt-prog"><span></span></div><div class="cyt-time">0:00 / 0:00</div><div class="cyt-btn cyt-mute"></div><div class="cyt-btn cyt-fs"></div>';
     box.appendChild(shield);box.appendChild(poster);box.appendChild(big);box.appendChild(bar);
-    var player=null,ready=false,revealT=null,started=false,warming=false,warmed=false;
+    var player=null,ready=false,revealT=null,started=false,warming=false,warmed=false,pending=false;
     function reveal(){poster.style.display='none';big.style.display='none';box.classList.add('cyt-playing');}
     function cover(){poster.style.display='';big.style.display='';box.classList.remove('cyt-playing');}
     function ensure(){
       if(player)return;
       player=new YT.Player(inner,{videoId:vid,playerVars:{controls:0,rel:0,iv_load_policy:3,modestbranding:1,playsinline:1,disablekb:1,fs:0,origin:location.origin},
-        events:{onReady:function(){ready=true;warming=true;player.mute();player.playVideo();},
+        events:{onReady:function(){ready=true;if(pending){pending=false;warmed=true;started=true;player.unMute();player.playVideo();reveal();}else{warming=true;player.mute();player.playVideo();}},
         onStateChange:function(e){
           if(e.data===YT.PlayerState.PLAYING){
             if(warming){setTimeout(function(){if(warming){player.pauseVideo();player.seekTo(0,true);player.unMute();warming=false;warmed=true;}},900);return;}
@@ -4127,12 +4127,14 @@ document.addEventListener("copy", function(e){
         }}});
     }
     function whenApi(fn){if(window.YT&&YT.Player){fn();}else{setTimeout(function(){whenApi(fn);},200);}}
+    window.__cytN=window.__cytN||0;
+    var slot=window.__cytN++;
     if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();whenApi(ensure);}},{rootMargin:'600px'});
+      var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();setTimeout(function(){whenApi(ensure);},slot*1500);}},{rootMargin:'400px'});
       io.observe(box);
     }else{whenApi(ensure);}
     function toggle(){
-      if(!player||!ready)return;
+      if(!player||!ready){pending=true;whenApi(ensure);return;}
       if(warming){warming=false;warmed=true;player.seekTo(0,true);player.unMute();started=true;reveal();return;}
       var st=player.getPlayerState();
       if(st===1){player.pauseVideo();}else{player.playVideo();}
