@@ -4072,7 +4072,88 @@ document.addEventListener("copy", function(e){
     </div>
     <div class="layout layout-sys1 layout-custSix-j0b0l">
         <div class="layout-bg">
-            <div class="mod mod-color mod-othercontent01 mod-othercontent01-title-j0b0l"><div class="mod-bg mod-bg-othercontent"><div class="mod-content mod-content-othercontent"><div class="content-bg content-bg-othercontent"><div class="yt-lite" data-vid="ZINlFh4YVic" style="position:relative;width:460px;height:260px;max-width:100%;cursor:pointer;background:#000 url('https://i.ytimg.com/vi/ZINlFh4YVic/hqdefault.jpg') center/cover no-repeat;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;background:rgba(0,0,0,.7);border-radius:12px;display:flex;align-items:center;justify-content:center;"><span style="width:0;height:0;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #fff;display:block;margin-left:4px;"></span></span></div><div class="yt-lite" data-vid="FET_E1QZQnw" style="position:relative;width:460px;height:260px;max-width:100%;cursor:pointer;background:#000 url('https://i.ytimg.com/vi/FET_E1QZQnw/hqdefault.jpg') center/cover no-repeat;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;background:rgba(0,0,0,.7);border-radius:12px;display:flex;align-items:center;justify-content:center;"><span style="width:0;height:0;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #fff;display:block;margin-left:4px;"></span></span></div><div class="yt-lite" data-vid="YarRtvFIyJ8" style="position:relative;width:460px;height:260px;max-width:100%;cursor:pointer;background:#000 url('https://i.ytimg.com/vi/YarRtvFIyJ8/hqdefault.jpg') center/cover no-repeat;"><span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;background:rgba(0,0,0,.7);border-radius:12px;display:flex;align-items:center;justify-content:center;"><span style="width:0;height:0;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #fff;display:block;margin-left:4px;"></span></span></div><script>(function(){var ds=document.querySelectorAll(".yt-lite");for(var i=0;i<ds.length;i++){ds[i].addEventListener("click",function(){var v=this.getAttribute("data-vid");var f=document.createElement("iframe");f.width="460";f.height="260";f.style.cssText="width:100%;height:100%;border:0;";f.src="https://www.youtube.com/embed/"+v+"?autoplay=1&rel=0&iv_load_policy=3";f.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";f.referrerPolicy="strict-origin-when-cross-origin";f.allowFullscreen=true;this.innerHTML="";this.appendChild(f);});}})();</script></div></div></div></div>
+            <div class="mod mod-color mod-othercontent01 mod-othercontent01-title-j0b0l"><div class="mod-bg mod-bg-othercontent"><div class="mod-content mod-content-othercontent"><div class="content-bg content-bg-othercontent"><div class="cyt-player" data-vid="ZINlFh4YVic"></div><div class="cyt-player" data-vid="FET_E1QZQnw"></div><div class="cyt-player" data-vid="YarRtvFIyJ8"></div><style>
+.cyt-player{position:relative;width:460px;height:260px;max-width:100%;background:#000;overflow:hidden;}
+.cyt-player iframe{position:absolute;top:-60px;left:0;width:100%;height:calc(100% + 120px);border:0;pointer-events:none;}
+.cyt-poster{position:absolute;inset:0;background:#000 center/cover no-repeat;z-index:3;}
+.cyt-shield{position:absolute;inset:0;z-index:2;}
+.cyt-big{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.65);z-index:4;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.cyt-big:after{content:"";display:block;width:0;height:0;border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #fff;margin-left:5px;}
+.cyt-bar{position:absolute;left:0;right:0;bottom:0;height:34px;background:linear-gradient(transparent,rgba(0,0,0,.75));z-index:5;display:flex;align-items:center;padding:0 10px;gap:10px;opacity:0;transition:opacity .25s;}
+.cyt-player:hover .cyt-bar{opacity:1;}
+.cyt-btn{width:16px;height:16px;cursor:pointer;flex:none;position:relative;}
+.cyt-play:before{content:"";position:absolute;left:3px;top:1px;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent #fff;}
+.cyt-playing .cyt-play:before{border:0;left:2px;top:1px;width:3px;height:14px;background:#fff;box-shadow:7px 0 0 #fff;}
+.cyt-prog{flex:1;height:4px;background:rgba(255,255,255,.3);border-radius:2px;cursor:pointer;position:relative;}
+.cyt-prog span{position:absolute;left:0;top:0;bottom:0;background:#e33;border-radius:2px;width:0;}
+.cyt-time{color:#fff;font:11px/1 Arial;flex:none;}
+.cyt-fs:before{content:"";position:absolute;inset:1px;border:2px solid #fff;border-radius:2px;}
+.cyt-mute:before{content:"\1F50A";position:absolute;left:0;top:0;font-size:13px;color:#fff;}
+.cyt-muted .cyt-mute:before{content:"\1F507";}
+</style>
+<script>
+(function(){
+  var tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  function fmt(t){t=Math.max(0,Math.floor(t||0));var m=Math.floor(t/60),s=t%60;return m+':'+(s<10?'0':'')+s;}
+  function setup(box){
+    var vid=box.getAttribute('data-vid');
+    var inner=document.createElement('div');box.appendChild(inner);
+    var poster=document.createElement('div');poster.className='cyt-poster';
+    poster.style.backgroundImage="url('https://i.ytimg.com/vi/"+vid+"/hqdefault.jpg')";
+    var shield=document.createElement('div');shield.className='cyt-shield';
+    var big=document.createElement('div');big.className='cyt-big';
+    var bar=document.createElement('div');bar.className='cyt-bar';
+    bar.innerHTML='<div class="cyt-btn cyt-play"></div><div class="cyt-prog"><span></span></div><div class="cyt-time">0:00 / 0:00</div><div class="cyt-btn cyt-mute"></div><div class="cyt-btn cyt-fs"></div>';
+    box.appendChild(shield);box.appendChild(poster);box.appendChild(big);box.appendChild(bar);
+    var player=null,ready=false,revealT=null;
+    function reveal(){poster.style.display='none';big.style.display='none';box.classList.add('cyt-playing');}
+    function cover(){poster.style.display='';big.style.display='';box.classList.remove('cyt-playing');}
+    function ensure(){
+      if(player)return;
+      player=new YT.Player(inner,{videoId:vid,playerVars:{controls:0,rel:0,iv_load_policy:3,modestbranding:1,playsinline:1,disablekb:1,fs:0,origin:location.origin},
+        events:{onReady:function(){ready=true;player.playVideo();},
+        onStateChange:function(e){
+          if(e.data===YT.PlayerState.PLAYING){clearTimeout(revealT);revealT=setTimeout(reveal,3200);}
+          else if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.ENDED){clearTimeout(revealT);cover();}
+        }}});
+    }
+    function toggle(){
+      if(!player){ensure();return;}
+      if(!ready)return;
+      var st=player.getPlayerState();
+      if(st===1){player.pauseVideo();}else{player.playVideo();}
+    }
+    big.addEventListener('click',toggle);
+    poster.addEventListener('click',toggle);
+    shield.addEventListener('click',toggle);
+    bar.querySelector('.cyt-play').addEventListener('click',toggle);
+    bar.querySelector('.cyt-mute').addEventListener('click',function(){
+      if(!player||!ready)return;
+      if(player.isMuted()){player.unMute();box.classList.remove('cyt-muted');}
+      else{player.mute();box.classList.add('cyt-muted');}
+    });
+    bar.querySelector('.cyt-fs').addEventListener('click',function(){
+      if(document.fullscreenElement){document.exitFullscreen();}
+      else if(box.requestFullscreen){box.requestFullscreen();}
+    });
+    bar.querySelector('.cyt-prog').addEventListener('click',function(ev){
+      if(!player||!ready)return;
+      var r=this.getBoundingClientRect();
+      player.seekTo(player.getDuration()*(ev.clientX-r.left)/r.width,true);
+      player.playVideo();
+    });
+    setInterval(function(){
+      if(!player||!ready||!player.getDuration)return;
+      var d=player.getDuration()||0,c=player.getCurrentTime()||0;
+      bar.querySelector('.cyt-prog span').style.width=(d?100*c/d:0)+'%';
+      bar.querySelector('.cyt-time').textContent=fmt(c)+' / '+fmt(d);
+    },500);
+  }
+  function init(){var b=document.querySelectorAll('.cyt-player');for(var i=0;i<b.length;i++)setup(b[i]);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></div></div></div></div>
         </div>
     </div>
     <div class="layout layout-sys1 layout-faq-nbwlc">
