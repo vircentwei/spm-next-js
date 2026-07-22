@@ -1,9 +1,12 @@
-import { SITE } from "@/lib/site";
-import type { MetadataRoute } from "next";
+import { baseURL } from "@/resources";
 
-export default function robots(): MetadataRoute.Robots {
+export default function robots() {
   return {
-    rules: [{ userAgent: "*" }],
-    sitemap: `${SITE}/sitemap.xml`,
+    rules: [
+      {
+        userAgent: "*",
+      },
+    ],
+    sitemap: `${baseURL}/sitemap.xml`,
   };
 }

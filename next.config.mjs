@@ -8,7 +8,6 @@ const withMDX = mdx({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
-  trailingSlash: true,
   async rewrites() {
     return {
       beforeFiles: [
