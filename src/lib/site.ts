@@ -28,11 +28,14 @@ export const NAV: NavItem[] = [
       { name: "Denim Shirts", url: "/products/denim-shirts/" },
     ],
   },
+  { name: "How to Start", url: "/services/how-to-start/" },
   {
-    name: "Solutions",
-    url: "/solutions/",
+    name: "Production",
+    url: "/company/capacity/",
     children: [
-      { name: "All Solutions", url: "/solutions/" },
+      { name: "Manufacture Capacity", url: "/company/capacity/" },
+      { name: "Factory Tour", url: "/company/factory-tour/" },
+      { name: "Certificates", url: "/company/certificates/" },
       { name: "Baggy Jeans", url: "/solutions/baggy-jeans/" },
       { name: "Skinny Jeans", url: "/solutions/skinny-jeans/" },
       { name: "Stacked Jeans", url: "/solutions/stacked-jeans/" },
@@ -48,23 +51,25 @@ export const NAV: NavItem[] = [
       { name: "Denim Washing", url: "/services/denim-washing/" },
       { name: "Printing & Embroidery", url: "/services/printing-embroidery/" },
       { name: "Custom Fabric", url: "/services/custom-fabric/" },
-      { name: "How to Start", url: "/services/how-to-start/" },
     ],
   },
   {
-    name: "Company",
+    name: "Support",
+    url: "/faq/",
+    children: [
+      { name: "Blog", url: "/blog/" },
+      { name: "FAQ", url: "/faq/" },
+      { name: "Clients & Reviews", url: "/clients/" },
+    ],
+  },
+  {
+    name: "About",
     url: "/company/",
     children: [
       { name: "About Us", url: "/company/" },
-      { name: "Factory Tour", url: "/company/factory-tour/" },
-      { name: "Capacity", url: "/company/capacity/" },
-      { name: "Certificates", url: "/company/certificates/" },
       { name: "Our Story", url: "/company/story/" },
     ],
   },
-  { name: "Clients", url: "/clients/" },
-  { name: "Blog", url: "/blog/" },
-  { name: "FAQ", url: "/faq/" },
   { name: "Contact", url: "/contact-us.html" },
 ];
 

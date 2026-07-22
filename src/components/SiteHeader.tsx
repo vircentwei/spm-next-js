@@ -26,7 +26,7 @@ export default function SiteHeader({ currentSection }: { currentSection?: string
               <a
                 href={url}
                 className={
-                  currentSection && url !== "/" && url.replace(/\//g, "") === currentSection
+                  currentSection && url !== "/" && url.startsWith(`/${currentSection}/`)
                     ? "on"
                     : undefined
                 }
