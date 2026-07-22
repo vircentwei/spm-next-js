@@ -13,12 +13,55 @@ export type PageDef = {
   parents: Crumb[];
 };
 
-export const NAV: Crumb[] = [
+export type NavItem = Crumb & { children?: Crumb[] };
+
+export const NAV: NavItem[] = [
   { name: "Home", url: "/" },
-  { name: "Products", url: "/products/" },
-  { name: "Solutions", url: "/solutions/" },
-  { name: "Services", url: "/services/" },
-  { name: "Company", url: "/company/" },
+  {
+    name: "Products",
+    url: "/products/",
+    children: [
+      { name: "All Products", url: "/products/" },
+      { name: "Custom Jeans", url: "/products/jeans/" },
+      { name: "Denim Jackets", url: "/products/denim-jackets/" },
+      { name: "Denim Shorts", url: "/products/denim-shorts/" },
+      { name: "Denim Shirts", url: "/products/denim-shirts/" },
+    ],
+  },
+  {
+    name: "Solutions",
+    url: "/solutions/",
+    children: [
+      { name: "All Solutions", url: "/solutions/" },
+      { name: "Baggy Jeans", url: "/solutions/baggy-jeans/" },
+      { name: "Skinny Jeans", url: "/solutions/skinny-jeans/" },
+      { name: "Stacked Jeans", url: "/solutions/stacked-jeans/" },
+      { name: "Plus Size Jeans", url: "/solutions/plus-size-jeans/" },
+    ],
+  },
+  {
+    name: "Services",
+    url: "/services/",
+    children: [
+      { name: "All Services", url: "/services/" },
+      { name: "Sample Making", url: "/services/sample-making/" },
+      { name: "Denim Washing", url: "/services/denim-washing/" },
+      { name: "Printing & Embroidery", url: "/services/printing-embroidery/" },
+      { name: "Custom Fabric", url: "/services/custom-fabric/" },
+      { name: "How to Start", url: "/services/how-to-start/" },
+    ],
+  },
+  {
+    name: "Company",
+    url: "/company/",
+    children: [
+      { name: "About Us", url: "/company/" },
+      { name: "Factory Tour", url: "/company/factory-tour/" },
+      { name: "Capacity", url: "/company/capacity/" },
+      { name: "Certificates", url: "/company/certificates/" },
+      { name: "Our Story", url: "/company/story/" },
+    ],
+  },
   { name: "Clients", url: "/clients/" },
   { name: "Blog", url: "/blog/" },
   { name: "FAQ", url: "/faq/" },

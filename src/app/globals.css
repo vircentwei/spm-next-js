@@ -52,15 +52,43 @@ a {
   display: flex;
   gap: 26px;
 }
-.nav a {
+.nav-item {
+  position: relative;
+}
+.nav-item > a {
   font-size: 15px;
   font-weight: 500;
   padding: 6px 0;
   position: relative;
   white-space: nowrap;
+  display: inline-block;
 }
-.nav a.on::after,
-.nav a:hover::after {
+.nav-item .dd {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 6px 6px;
+  padding: 6px 0;
+  z-index: 50;
+}
+.nav-item:hover .dd {
+  display: block;
+}
+.nav-item .dd a {
+  display: block;
+  font-size: 14px;
+  padding: 9px 16px;
+  white-space: nowrap;
+}
+.nav-item .dd a:hover {
+  background: #f2f2f2;
+}
+.nav-item > a.on::after,
+.nav-item > a:hover::after {
   content: "";
   position: absolute;
   left: 0;
@@ -235,9 +263,22 @@ a {
   .nav.open {
     display: flex;
   }
-  .nav a {
+  .nav-item > a {
+    display: block;
     padding: 14px 20px;
     border-top: 1px solid var(--line);
+  }
+  .nav-item .dd {
+    display: block;
+    position: static;
+    box-shadow: none;
+    padding: 0;
+  }
+  .nav-item .dd a {
+    padding: 10px 34px;
+    font-size: 13px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
   }
   .nav-toggle {
     display: block;

@@ -21,18 +21,28 @@ export default function SiteHeader({ currentSection }: { currentSection?: string
           <span />
         </button>
         <nav className={`nav${open ? " open" : ""}`} aria-label="Main navigation">
-          {NAV.map(({ name, url }) => (
-            <a
-              key={url}
-              href={url}
-              className={
-                currentSection && url !== "/" && url.replace(/\//g, "") === currentSection
-                  ? "on"
-                  : undefined
-              }
-            >
-              {name}
-            </a>
+          {NAV.map(({ name, url, children }) => (
+            <div key={url} className={`nav-item${children ? " has-dd" : ""}`}>
+              <a
+                href={url}
+                className={
+                  currentSection && url !== "/" && url.replace(/\//g, "") === currentSection
+                    ? "on"
+                    : undefined
+                }
+              >
+                {name}
+              </a>
+              {children && (
+                <div className="dd">
+                  {children.map((c) => (
+                    <a key={c.url} href={c.url}>
+                      {c.name}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </nav>
       </div>
