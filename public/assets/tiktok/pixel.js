@@ -123,8 +123,8 @@
                 });
               }
             } catch (e) {}
+            /* TikTok web SDK maps SubmitForm to Lead on the wire; send once */
             track("SubmitForm", "contact-form", { content_id: "contact-form" });
-            track("Lead", "contact-form", { content_id: "contact-form" });
           }
         }).catch(function () {});
       }
