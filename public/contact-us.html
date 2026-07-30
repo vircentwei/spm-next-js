@@ -1125,49 +1125,7 @@ document.addEventListener('keydown',function(e){
 .mod-othercontent01-banner-dh2w2 .swiper-pagination-bullet-active{background:#000;}
 
 .layout-banner-dh2w2 .mod-othercontent01-banner-dh2w2 .img img{width:100% !important;height:100%;object-fit:cover;left:0;transform:none;}
-.dz-cookie{position:fixed;left:0;right:0;bottom:0;z-index:1000;background:rgba(0,0,0,.75);color:#fff;padding:14px 20px 16px;text-align:center;display:none;font-size:13px;}
-.dz-cookie.show{display:block;}
-.dz-cookie h4{margin:0 0 8px;font-size:17px;color:#fff;}
-.dz-cookie p{margin:0 0 12px;color:#eee;}
-.dz-cookie-btns{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
-.dz-cookie-btns button{border:1px solid #fff;border-radius:3px;padding:7px 16px;font-size:13px;cursor:pointer;background:transparent;color:#fff;}
-.dz-cookie-btns .dz-ck-accept{background:#fff;color:#000;font-weight:bold;}
-.dz-cookie-opts{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;}
-.dz-cookie-opts label{display:flex;align-items:center;gap:5px;color:#fff;cursor:pointer;}
 </style>
-<div class="dz-cookie notranslate" id="dzCookie">
-<h4>Cookie settings</h4>
-<p>We use cookies to provide you with the best possible experience. They also allow us to analyze user behavior in order to constantly improve the website for you.</p>
-<div class="dz-cookie-btns">
-<button type="button" onclick="dzCookieChoose('reject')">Reject All</button>
-<button type="button" onclick="dzCookieChoose('selection')">Accept Selection</button>
-<button type="button" class="dz-ck-accept" onclick="dzCookieChoose('all')">Accept all</button>
-</div>
-<div class="dz-cookie-opts">
-<label><input type="checkbox" checked disabled>Necessary</label>
-<label><input type="checkbox" id="dzCkAnalytics">Analytics</label>
-<label><input type="checkbox" id="dzCkPreferences">Preferences</label>
-<label><input type="checkbox" id="dzCkMarketing">Marketing</label>
-</div>
-</div>
-<script>
-function dzCookieChoose(mode){
-  var c={necessary:true,analytics:false,preferences:false,marketing:false};
-  if(mode==='all'){c.analytics=c.preferences=c.marketing=true;}
-  else if(mode==='selection'){
-    c.analytics=document.getElementById('dzCkAnalytics').checked;
-    c.preferences=document.getElementById('dzCkPreferences').checked;
-    c.marketing=document.getElementById('dzCkMarketing').checked;
-  }
-  try{localStorage.setItem('dzCookieConsent',JSON.stringify(c));}catch(e){}
-  document.getElementById('dzCookie').classList.remove('show');
-}
-(function(){
-  var saved=null;
-  try{saved=localStorage.getItem('dzCookieConsent');}catch(e){}
-  if(!saved){document.getElementById('dzCookie').classList.add('show');}
-})();
-</script>
 <script>
 window.DZ_CONTACT_API=window.DZ_CONTACT_API||'/api/contact';
 function dzContactMsg(t,ok){
