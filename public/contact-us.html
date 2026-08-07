@@ -1147,6 +1147,7 @@ function dzContactSend(){
   if(!title){dzContactMsg('Please enter a title.',false);return;}
   if(!content){dzContactMsg('Please enter your message.',false);return;}
   if(!agree){dzContactMsg('Please agree to the terms of service.',false);return;}
+  if(tel && !/^[\d\s\-\+\(\)]{7,20}$/.test(tel)){dzContactMsg('Please enter a valid phone number.',false);return;}
   dzContactMsg('Sending...',true);
   fetch(window.DZ_CONTACT_API,{
     method:'POST',
@@ -1156,6 +1157,10 @@ function dzContactSend(){
     if(res.ok){dzContactMsg('Message sent successfully. We will reply within 12 working hours.',true);
       box.querySelectorAll('input.text').forEach(function(i){i.value='';});
       box.querySelector('textarea.content').value='';
+      setTimeout(function(){
+        var msg='Hello, I just submitted an inquiry about: '+title;
+        window.location.href='https://wa.me/12792549035?text='+encodeURIComponent(msg);
+      },1500);
     }else{dzContactMsg('Send failed ('+res.status+'). Please try again later or email us directly.',false);}
   }).catch(function(){
     dzContactMsg('Send failed: API not reachable. Please try again later or email us directly.',false);
