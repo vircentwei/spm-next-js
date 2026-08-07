@@ -1129,10 +1129,30 @@ document.addEventListener('keydown',function(e){
 <script>
 window.DZ_CONTACT_API=window.DZ_CONTACT_API||'/api/contact';
 function dzContactMsg(t,ok){
-  var r=document.getElementById('dzSendResult');
-  r.style.display='block';
-  r.style.color=ok?'#29a61a':'#d33';
-  r.textContent=t;
+  var ov=document.getElementById('dzMsgOverlay');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='dzMsgOverlay';
+    ov.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);z-index:99999;display:flex;align-items:center;justify-content:center;';
+    document.body.appendChild(ov);
+  }
+  var sending=(t==='Sending...');
+  var box=document.createElement('div');
+  box.style.cssText='background:#fff;border-radius:8px;padding:28px 24px 20px;max-width:320px;width:88%;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.18);';
+  var msg=document.createElement('div');
+  msg.style.cssText='font-size:15px;color:'+(ok?'#29a61a':'#d33')+';'+(sending?'':'margin-bottom:18px;');
+  msg.textContent=t;
+  box.appendChild(msg);
+  if(!sending){
+    var btn=document.createElement('button');
+    btn.textContent='OK';
+    btn.style.cssText='background:#555;color:#fff;border:none;border-radius:4px;padding:8px 28px;font-size:14px;cursor:pointer;';
+    btn.onclick=function(){ov.style.display='none';};
+    box.appendChild(btn);
+  }
+  ov.innerHTML='';
+  ov.appendChild(box);
+  ov.style.display='flex';
 }
 function dzContactSend(){
   var box=document.querySelector('.mod-send01');
